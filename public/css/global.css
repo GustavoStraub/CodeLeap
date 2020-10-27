@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  font-family: 'Roboto-Regular';
+}
+body{
+  background: #DDDDDD;
+}
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url('../fonts/Roboto-Regular.ttf') format('woff2'), url('../fonts/Roboto-Regular.ttf') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
