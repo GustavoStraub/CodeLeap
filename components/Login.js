@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 
+import Button from './common/Button'
+import TextInput from './common/TextInput'
+
 const MainWrapper = styled.div`
 height: 100vh;
 width: 100vw;
@@ -31,25 +34,6 @@ form{
   jutify-content: center;
   align-items: flex-end;
 }
-input{
-  width: 444px;
-  height: 28px;
-  padding-left: 10px;
-  font-family: Roboto-Regular;
-  border-radius: 4px;
-  border: 1px solid;
-  font-size: 16px;
-}
-`
-const Button = styled.button`
-background: #000;
-color: #fff;
-border: none;
-outline: none;
-width: 111px;
-cursor: ${props => props.mouse};
-height: 33px;
-margin-top: 15px;
 `
 
 export default function Login() {
@@ -62,14 +46,11 @@ export default function Login() {
   useEffect(() => {
     username == '' ? setDisable(true) : setDisable(false)
   }, [username])
-  console.log(disable)
 
   const HandleSubmit = (e) => {
     e.preventDefault()
     router.push('/mainScreen')
-
   }
-
 
   return (
     <MainWrapper>
@@ -77,8 +58,17 @@ export default function Login() {
         <h2>Welcome to CodeLeap network!</h2>
         <p>Please enter your username</p>
         <form onSubmit={HandleSubmit}>
-          <input type='text' placeholder='John doe' onChange={(e) => setUsername(e.target.value)} />
-          <Button disabled={disable} mouse={disable ? 'not-allowed' : 'pointer'}>ENTER</Button>
+          <TextInput
+            height='28px'
+            width='444px'
+            type='text'
+            placeholder='John doe'
+            change={(e) => setUsername(e.target.value)} />
+          <Button
+            bg={disable ? '#CECECE' : '#000'}
+            disable={disable}
+            mouse={disable ? 'not-allowed' : 'pointer'}
+            title='ENTER' />
         </form>
       </LoginWrapper>
     </MainWrapper>
