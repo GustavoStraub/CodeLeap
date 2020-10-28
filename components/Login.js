@@ -59,6 +59,7 @@ export default function Login() {
         <p>Please enter your username</p>
         <form onSubmit={HandleSubmit}>
           <TextInput
+            value={username}
             height='28px'
             width='444px'
             type='text'

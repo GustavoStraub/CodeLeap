@@ -13,10 +13,11 @@ h2{
 }
 `
 
-export default function Header() {
+export default function Header(props) {
   return (
     <MainWrapper>
-      <h2>CodeLeap Network</h2>
+      <h2>{props.title}</h2>
+      {props.children}
     </MainWrapper>
   )
 }

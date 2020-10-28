@@ -50,27 +50,50 @@ div{
 `
 
 export default function Main() {
+
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [disable, setDisable] = useState(true)
+
+
+  useEffect(() => {
+    title == '' ? setDisable(true) : setDisable(false)
+    content == '' ? setDisable(true) : setDisable(false)
+  }, [title, content])
+
+  const HandleCreatePost = (e) => {
+    e.preventDefault()
+    alert('OPA')
+  }
+
+
   return (
     <MainWrapper>
       <Container>
-        <Header />
+        <Header title='CodeLeap Network' />
         <InnerContainer>
-          <PostMaker onSubmit={() => { }}>
+          <PostMaker onSubmit={HandleCreatePost}>
             <h2>What's on your mind?</h2>
             <label>Title</label>
             <TextInput
+              value={title}
               height='28px'
               type='text'
               placeholder='Hello world'
+              change={(e) => setTitle(e.target.value)}
             />
             <label>Content</label>
             <textarea
+              value={content}
               type='text'
               placeholder='Content here'
+              onChange={(e) => setContent(e.target.value)}
             />
             <div>
               <Button
-                bg='#000'
+                bg={disable ? '#CECECE' : '#000'}
+                disable={disable}
+                mouse={disable ? 'not-allowed' : 'pointer'}
                 title='CREATE' />
             </div>
           </PostMaker>

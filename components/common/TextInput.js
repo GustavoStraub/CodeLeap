@@ -13,7 +13,9 @@ font-size: 16px;
 
 export default function TextInput(props) {
   return (
-    <Input width={props.width}
+    <Input
+      value={props.value}
+      width={props.width}
       height={props.height}
       type={props.type}
       placeholder={props.placeholder}
