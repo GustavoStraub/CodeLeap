@@ -20,3 +20,8 @@ export async function PostAPost(username, title, content) {
   })
     .catch(err => console.log(err))
 }
+
+export async function DeletePost(id) {
+  await api.delete(`${id}`)
+    .catch(err => console.log(err))
+}

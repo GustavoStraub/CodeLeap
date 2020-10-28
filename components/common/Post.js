@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Header from './Header'
 import { UserContext } from '../../actions/Store'
+import moment from 'moment'
 
 const Wrapper = styled.div`
 border: 1px solid;
@@ -48,7 +49,7 @@ export default function Post(props) {
       <InnerWrapper>
         <Info>
           <p>@{props.user}</p>
-          <p>{props.date}</p>
+          <p>{moment(props.date).fromNow()}</p>
         </Info>
         <Content>
           {props.content}
