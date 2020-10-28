@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
-
 import Button from './common/Button'
 import TextInput from './common/TextInput'
+import { UserContext } from '../actions/Store'
 
 const MainWrapper = styled.div`
 height: 100vh;
@@ -40,12 +40,12 @@ export default function Login() {
 
   const router = useRouter()
 
-  const [username, setUsername] = useState('')
+  const [user, setUser] = useContext(UserContext)
   const [disable, setDisable] = useState(true)
 
   useEffect(() => {
-    username == '' ? setDisable(true) : setDisable(false)
-  }, [username])
+    user == '' ? setDisable(true) : setDisable(false)
+  }, [user])
 
   const HandleSubmit = (e) => {
     e.preventDefault()
@@ -59,12 +59,12 @@ export default function Login() {
         <p>Please enter your username</p>
         <form onSubmit={HandleSubmit}>
           <TextInput
-            value={username}
+            value={user}
             height='28px'
             width='444px'
             type='text'
             placeholder='John doe'
-            change={(e) => setUsername(e.target.value)} />
+            change={(e) => setUser(e.target.value)} />
           <Button
             bg={disable ? '#CECECE' : '#000'}
             disable={disable}

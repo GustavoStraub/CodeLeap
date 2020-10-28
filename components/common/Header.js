@@ -7,9 +7,11 @@ background: #000;
 height: 80px;
 display:flex;
 align-items: center;
+justify-content: space-between;
+padding: 0% 3%;
+box-sizing: border-box;
 h2{
   color: #fff;
-  padding-left: 3%;
 }
 `
 

@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import Header from '../components/common/Header'
 import TextInput from '../components/common/TextInput'
 import Button from '../components/common/Button'
+import Post from '../components/common/Post'
+import { UserContext } from '../actions/Store'
+import { getPosts, PostAPost } from '../actions/functions'
 
 const MainWrapper = styled.div`
 width: 100%;
@@ -23,6 +26,7 @@ box-sizing: border-box;
 padding: 20px;
 display: flex;
 flex-direction: column;
+margin-bottom: 5vh;
 h2{
   margin-bottom: 3vh;
 }
@@ -53,19 +57,31 @@ export default function Main() {
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [user, setUser] = useContext(UserContext)
   const [disable, setDisable] = useState(true)
-
+  const [reload, setReload] = useState(true)
+  const [posts, setPosts] = useState([])
 
   useEffect(() => {
-    title == '' ? setDisable(true) : setDisable(false)
-    content == '' ? setDisable(true) : setDisable(false)
+    title.length > 0 && content.length > 0 ? setDisable(false) : setDisable(true)
   }, [title, content])
+
+  useEffect(() => {
+    getPosts().then(res => setPosts(res))
+  }, [reload])
+
+  function Reset() {
+    setTitle('')
+    setContent('')
+  }
 
   const HandleCreatePost = (e) => {
     e.preventDefault()
-    alert('OPA')
+    PostAPost(user, title, content)
+      .then(setReload(!reload))
+    Reset()
   }
-
+  console.log(posts)
 
   return (
     <MainWrapper>
@@ -97,6 +113,15 @@ export default function Main() {
                 title='CREATE' />
             </div>
           </PostMaker>
+          {posts.map(post =>
+            <Post key={post.id}
+              title={post.title}
+              user={post.username}
+              date={post.created_datetime}
+              content={post.content}
+              clickDelete={() => alert('Delete')}
+              clickEdit={() => alert('Edit')} />
+          )}
         </InnerContainer>
       </Container>
     </MainWrapper>
