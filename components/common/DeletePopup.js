@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const MainWrapper = styled.div`
-background: rgba(119,119,119,0.1);
+background: rgba(119,119,119,0.8);
 height: 100vh;
 width: 100%;
 position: fixed;

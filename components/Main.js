@@ -5,7 +5,7 @@ import TextInput from '../components/common/TextInput'
 import Button from '../components/common/Button'
 import Post from '../components/common/Post'
 import { UserContext } from '../actions/Store'
-import { getPosts, PostAPost, DeletePost } from '../actions/functions'
+import { getPosts, PostAPost, DeletePost, EditPost } from '../actions/functions'
 import DeletePopup from './common/DeletePopup'
 import Edit from './common/Edit'
 
@@ -83,12 +83,11 @@ export default function Main() {
 
   const HandleCreatePost = (e) => {
     e.preventDefault()
-    PostAPost(user, title, content)
-      .then(setReload(!reload))
+    PostAPost(user, title, content, setReload(!reload))
     Reset()
   }
 
-  const GetPostId = (id) => {
+  const OpenDeletePop = (id) => {
     setPopupDelete(!PopupDelete)
     setID(id)
   }
@@ -98,9 +97,19 @@ export default function Main() {
   }
 
   const HandleDeletePost = () => {
-    DeletePost(ID)
-      .then(setReload(!reload))
+    DeletePost(ID, setReload(!reload))
+      .then(setPopupDelete(!PopupDelete))
       .catch(err => console.log(err))
+  }
+
+  const HandleEdit = (id) => {
+    setID(id)
+    setPopupEdit(!PopupEdit)
+  }
+
+  const SaveEdit = () => {
+    setPopupEdit(false)
+    setReload(!reload)
   }
 
   return (
@@ -133,21 +142,23 @@ export default function Main() {
                 title='CREATE' />
             </div>
           </PostMaker>
+
+          {PopupDelete ? <DeletePopup cancel={HandleCancel}
+            ok={HandleDeletePost} />
+            : null}
+
+          {PopupEdit ? <Edit event={SaveEdit} id={ID} />
+            : null}
+
           {posts.map(post =>
             <>
-              {PopupDelete ? <DeletePopup cancel={HandleCancel}
-                ok={HandleDeletePost} />
-                : null}
-              {PopupEdit ? <Edit cancel={HandleCancel}
-                ok={HandleDeletePost} />
-                : null}
               <Post key={post.id}
                 title={post.title}
                 user={post.username}
                 date={post.created_datetime}
                 content={post.content}
-                clickDelete={() => GetPostId(post.id)}
-                clickEdit={() => alert('Edit')} />
+                clickDelete={() => OpenDeletePop(post.id)}
+                clickEdit={() => HandleEdit(post.id)} />
             </>
           )}
         </InnerContainer>

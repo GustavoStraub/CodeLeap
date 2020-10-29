@@ -12,16 +12,34 @@ export async function getPosts() {
   return Posts
 }
 
-export async function PostAPost(username, title, content) {
+export async function PostAPost(username, title, content, action) {
   await api.post(null, {
-    username: username,
-    title: title,
-    content: content
+    username,
+    title,
+    content
+  })
+    .then(action)
+    .catch(err => console.log(err))
+}
+
+export async function DeletePost(id, action) {
+  await api.delete(`${id}/`)
+    .then(action)
+    .catch(err => console.log(err))
+}
+
+export async function EditPost(id, title, content) {
+  await api.patch(`${id}/`, {
+    title,
+    content
   })
     .catch(err => console.log(err))
 }
 
-export async function DeletePost(id) {
-  await api.delete(`${id}`)
+export async function getPost(id) {
+  let Post
+  await api.get(`${id}/`)
+    .then(res => Post = res.data)
     .catch(err => console.log(err))
+  return Post
 }

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import TextInput from './TextInput'
 import Button from './Button'
+import { getPost, EditPost } from '../../actions/functions'
 
 const MainWrapper = styled.div`
-background: rgba(119,119,119,0.1);
+background: rgba(119,119,119,0.8);
 height: 100vh;
 width: 100%;
 position: fixed;
@@ -50,30 +51,47 @@ div{
 }
 `
 export default function Edit(props) {
+
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+
+  useEffect(() => {
+    getPost(props.id)
+      .then((res) => {
+        setTitle(res.title)
+        setContent(res.content)
+      })
+  }, [])
+
+  function HandleEditSave(e) {
+    e.preventDefault()
+    EditPost(props.id, title, content)
+      .then(props.event)
+  }
+
   return (
     <MainWrapper>
-      <PostEdit onSubmit={props.submit}>
-        <h2>What's on your mind?</h2>
+      <PostEdit onSubmit={HandleEditSave}>
+        <h2>Edit item</h2>
         <label>Title</label>
         <TextInput
-          value={props.title}
+          value={title}
           height='28px'
           type='text'
           placeholder='Hello world'
-          change={props.titleChange}
+          change={(e) => setTitle(e.target.value)}
         />
         <label>Content</label>
         <textarea
-          value={props.content}
+          value={content}
           type='text'
           placeholder='Content here'
-          onChange={props.contentChange}
+          onChange={(e) => setContent(e.target.value)}
         />
         <div>
           <Button
-            bg={props.disable ? '#CECECE' : '#000'}
-            disable={props.disable}
-            mouse={props.disable ? 'not-allowed' : 'pointer'}
+            mouse='pointer'
+            bg='#000'
             title='SAVE' />
         </div>
       </PostEdit>
